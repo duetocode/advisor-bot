@@ -66,6 +66,7 @@ OrderBook &AdvisorBot::getOrderBook()
 
 AdvisorBot::AdvisorBot()
 {
+    // intialize all command objects
     commandList = {
         new HelpCommand{},
         new ProdCommand{},
@@ -79,6 +80,7 @@ AdvisorBot::AdvisorBot()
         new ExitCommand{},
     };
 
+    // register command objects to the look up table
     for (auto &cmd : commandList)
     {
         for (auto &desc : cmd->descriptions)
@@ -87,14 +89,15 @@ AdvisorBot::AdvisorBot()
         }
     }
 
+    // intialize the order book
     (*this) << "Welcome! Advisor Bot at your service." << std::endl;
     (*this) << "Loading order book..." << std::endl;
     auto tBegin = std::chrono::steady_clock::now();
     orderBook = std::move(OrderBook{"data/20200601.csv"});
-    // orderBook = OrderBook{"test/test_data.csv"};
     auto tEnd = std::chrono::steady_clock::now();
     (*this) << "Order book loaded in " << std::chrono::duration_cast<std::chrono::seconds>(tEnd - tBegin).count() << "s" << std::endl;
 
+    // intialize the step iterator and leave it at the first step
     it = orderBook.begin();
 }
 
@@ -126,6 +129,7 @@ void AdvisorBot::run()
             continue;
         }
 
+        // execute command
         AdvisorCommand *command = commandTable.at(userInput[0]);
         command->execute(*this, userInput);
     }

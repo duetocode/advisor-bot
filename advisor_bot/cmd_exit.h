@@ -2,6 +2,7 @@
 
 #include "advisor_bot.h"
 
+/* stop the program */
 class ExitCommand : public AdvisorCommand
 {
 public:

@@ -37,8 +37,11 @@ public:
      */
     Step &at(size_t index);
 
+    /** return a new iterator set at the beginning of the data */
     StepIterator begin();
+    /** iterator points to the pos after the last record */
     const StepIterator &end();
+    /** get previous steps from the iterator */
     std::vector<Step> getPreviousSteps(StepIterator it, size_t maxSteps);
 
 private:
@@ -61,12 +64,18 @@ private:
 class StepIterator
 {
 public:
+    /* default constructor */
     StepIterator();
+    /* construct from orderbook */
     StepIterator(OrderBook *orderBook);
+    /* copy constructor */
     StepIterator(const StepIterator &other);
+    /* move constructor */
     StepIterator(StepIterator &&other);
 
+    /* copy assignment operator */
     StepIterator &operator=(const StepIterator &other);
+    /* move assignment operator */
     StepIterator &operator=(StepIterator &&other);
 
     Step &operator*();

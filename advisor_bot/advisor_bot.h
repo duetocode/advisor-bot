@@ -9,6 +9,7 @@
 
 class AdvisorBot;
 
+/** Text description for a command */
 struct CommandDescription
 {
     std::string description;

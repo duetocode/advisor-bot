@@ -2,6 +2,7 @@
 
 #include "advisor_bot.h"
 
+/** display help messages */
 class HelpCommand : public AdvisorCommand
 {
 public:

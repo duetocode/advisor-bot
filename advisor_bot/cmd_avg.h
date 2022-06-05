@@ -2,6 +2,7 @@
 
 #include "advisor_bot.h"
 
+/** compute average price by specified time steps, product, and order type. */
 class AvgCommand : public AdvisorCommand
 {
 public:

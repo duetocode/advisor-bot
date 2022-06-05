@@ -31,8 +31,11 @@ void AvgCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &userI
         return;
     }
 
+    // parse
     auto product = userInput[1];
     auto type = userInput[2] == "bid" ? OrderBookType::bid : OrderBookType::ask;
+
+    // copy the iterator for backtracking
     auto it = advisorBot.it;
     auto steps = advisorBot.getOrderBook().getPreviousSteps(it, timesteps);
 
@@ -53,13 +56,14 @@ void AvgCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &userI
         count++;
     }
 
+    // in case there is no data
     if (count == 0)
     {
         advisorBot << "No data found" << std::endl;
+        return;
     }
-    else
-    {
-        double result = sum / count;
-        advisorBot << "The average " << product << " ask price over the last " << timesteps << " timesteps was " << format(result) << std::endl;
-    }
+
+    // calculate the average
+    double result = sum / amount;
+    advisorBot << "The average " << product << " ask price over the last " << timesteps << " timesteps was " << format(result) << std::endl;
 }
