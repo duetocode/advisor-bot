@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <chrono>
 
 #include "order_book.h"
 
@@ -86,7 +87,12 @@ AdvisorBot::AdvisorBot()
         }
     }
 
+    (*this) << "Welcome! Advisor Bot at your service." << std::endl;
+    (*this) << "Loading order book..." << std::endl;
+    auto tBegin = std::chrono::steady_clock::now();
     orderBook = std::move(OrderBook{"data/20200601.csv"});
+    auto tEnd = std::chrono::steady_clock::now();
+    (*this) << "Loaded order book in " << std::chrono::duration_cast<std::chrono::seconds>(tEnd - tBegin).count() << "s" << std::endl;
     // orderBook = std::move(OrderBook{"test/test_data.csv"});
 }
 
@@ -99,7 +105,6 @@ void AdvisorBot::run()
 {
     running = true;
     // welcome message
-    *this << "Welcome to the Advisor Bot!" << std::endl;
     *this << "Please enter a command, or help for a list of commands" << std::endl;
 
     while (running)
