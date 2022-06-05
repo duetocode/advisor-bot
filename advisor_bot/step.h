@@ -3,7 +3,14 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 #include "order_book_entry.h"
+
+struct Stats
+{
+    size_t numAsks;
+    size_t numBids;
+};
 
 /**
  * @brief Class represents a single time step in the simulation.
@@ -28,6 +35,8 @@ public:
 
     /** get current timestamp */
     std::string timestamp() const;
+    /** make statisitics*/
+    std::map<std::string, Stats> stats() const;
 
     /* match asks and bids in the current time frame */
     std::vector<OrderBookEntry> matchAsksToBids(std::string product);

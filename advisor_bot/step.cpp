@@ -117,3 +117,25 @@ std::vector<OrderBookEntry> Step::matchAsksToBids(std::string product)
     }
     return sales;
 }
+
+std::map<std::string, Stats> Step::stats() const
+{
+    std::map<std::string, Stats> result;
+
+    for (auto &order : orders)
+    {
+        auto &stat = result[order.product];
+
+        // numAsks and numBids
+        if (order.orderType == OrderBookType::ask)
+        {
+            stat.numAsks++;
+        }
+        else if (order.orderType == OrderBookType::bid)
+        {
+            stat.numBids++;
+        }
+    }
+
+    return result;
+}

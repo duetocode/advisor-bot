@@ -16,6 +16,7 @@
 #include "cmd_avg.h"
 #include "cmd_time.h"
 #include "cmd_predict.h"
+#include "cmd_stat.h"
 
 AdvisorCommand::AdvisorCommand(std::map<std::string, CommandDescription> descriptions) : descriptions(descriptions) {}
 AdvisorCommand::AdvisorCommand(std::string instruction, CommandDescription description)
@@ -73,6 +74,7 @@ AdvisorBot::AdvisorBot()
         new PredictCommand{},
         new TimeCommand{},
         new StepCommand{},
+        new StatCommand{},
         new ExitCommand{},
     };
 
