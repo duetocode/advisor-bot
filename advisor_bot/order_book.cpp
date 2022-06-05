@@ -21,21 +21,21 @@ OrderBook::OrderBook(std::string csvFileName)
         steps.back().orders.push_back(entry);
     }
 
-    stepIter = steps.begin();
+    it = steps.begin();
 }
 
 OrderBook::OrderBook(OrderBook &&other)
 {
     std::swap(orders, other.orders);
     std::swap(steps, other.steps);
-    std::swap(stepIter, other.stepIter);
+    std::swap(it, other.it);
 }
 
 OrderBook::OrderBook(OrderBook &other)
 {
     orders = other.orders;
     steps = other.steps;
-    stepIter = other.stepIter;
+    it = other.it;
 }
 
 // move assignment operator
@@ -43,7 +43,7 @@ OrderBook &OrderBook::operator=(OrderBook &&other)
 {
     std::swap(orders, other.orders);
     std::swap(steps, other.steps);
-    std::swap(stepIter, other.stepIter);
+    std::swap(it, other.it);
     return *this;
 }
 
@@ -52,35 +52,52 @@ OrderBook &OrderBook::operator=(OrderBook &other)
 {
     orders = other.orders;
     steps = other.steps;
-    stepIter = other.stepIter;
+    it = other.it;
     return *this;
 }
 
-size_t OrderBook::size() const
+size_t OrderBook::recordSize() const
 {
     return orders.size();
 }
 
-std::string OrderBook::getTimestamp() const
+size_t OrderBook::stepSize() const
 {
-    return stepIter->timestamp();
+    return steps.size();
 }
 
-std::string OrderBook::step()
+Step &OrderBook::step()
 {
-    stepIter++;
+    it++;
 
-    if (stepIter == steps.end())
+    // wrap to the beginning if we reached the end
+    if (it == steps.end())
     {
-        stepIter = steps.begin();
+        it = steps.begin();
     }
 
-    return getTimestamp();
+    return *it;
 }
 
-std::vector<OrderBookEntry> OrderBook::getCurrentEntries() const
+std::vector<Step *> OrderBook::getPreviousSteps(unsigned int num)
 {
-    return stepIter->orders;
+    // copy the iterator
+    auto it = this->it;
+    bool reached = false;
+    std::vector<Step *> result;
+
+    while (!reached && num != 0)
+    {
+        --num;
+        result.push_back(&(*it));
+        if (it == steps.begin())
+            // reached the beginning, set the flag to break the loop
+            reached = true;
+        else
+            --it;
+    }
+
+    return result;
 }
 
 std::vector<std::string> OrderBook::getAvailableProducts() const
@@ -98,38 +115,5 @@ std::vector<std::string> OrderBook::getAvailableProducts() const
 
 Step &OrderBook::currentStep()
 {
-    return *stepIter;
-}
-
-Step::Step() {}
-Step::Step(std::vector<OrderBookEntry> _orders) : orders(_orders) {}
-Step::Step(const Step &other) : orders(other.orders) {}
-Step::Step(Step &&other)
-{
-    std::swap(orders, other.orders);
-}
-
-// copy assignment operator
-Step &Step::operator=(const Step &other)
-{
-    orders = other.orders;
-    return *this;
-}
-// move assignment operator
-Step &Step::operator=(Step &&other)
-{
-    std::swap(orders, other.orders);
-    return *this;
-}
-
-std::string Step::timestamp() const
-{
-    if (orders.size() > 0)
-    {
-        return orders[0].timestamp;
-    }
-    else
-    {
-        return "";
-    }
+    return *it;
 }

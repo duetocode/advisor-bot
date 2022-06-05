@@ -6,7 +6,7 @@ StepCommand::StepCommand() : AdvisorCommand("step", CommandDescription{"move to 
 
 void StepCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &userInput)
 {
-    std::string timestamp = advisorBot.getOrderBook().step();
+    Step &step = advisorBot.getOrderBook().step();
 
-    advisorBot << "now at " << timestamp << std::endl;
+    advisorBot << "now at " << step.timestamp() << std::endl;
 }

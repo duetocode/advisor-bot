@@ -36,18 +36,15 @@ void AvgCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &userI
 
     auto &orderBook = advisorBot.getOrderBook();
     auto &step = orderBook.currentStep();
-    auto it = orderBook.steps.rbegin();
 
-    // skip to current step
-    while (it != orderBook.steps.rend() && it->timestamp() != step.timestamp())
-        ++it;
+    std::vector<Step *> previousSteps = orderBook.getPreviousSteps(timesteps);
 
     // accumulate
-    size_t count = 0, stepCounter = timesteps;
+    size_t count = 0;
     double sum = 0;
-    while (timesteps != 0 && it != orderBook.steps.rend())
+    for (auto *step : previousSteps)
     {
-        for (auto &order : it->orders)
+        for (auto &order : step->orders)
         {
             if (order.product == product && order.orderType == type)
             {
@@ -55,8 +52,7 @@ void AvgCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &userI
                 count++;
             }
         }
-        --stepCounter;
-        ++it;
+        ++count;
     }
 
     if (count == 0)

@@ -14,6 +14,8 @@
 #include "cmd_max.h"
 #include "cmd_step.h"
 #include "cmd_avg.h"
+#include "cmd_time.h"
+#include "cmd_predict.h"
 
 AdvisorCommand::AdvisorCommand(std::map<std::string, CommandDescription> descriptions) : descriptions(descriptions) {}
 AdvisorCommand::AdvisorCommand(std::string instruction, CommandDescription description)
@@ -64,10 +66,12 @@ AdvisorBot::AdvisorBot()
 {
     commandList = {
         new HelpCommand{},
-        new AvgCommand{},
         new ProdCommand{},
         new MinCommand{},
         new MaxCommand{},
+        new AvgCommand{},
+        new PredictCommand{},
+        new TimeCommand{},
         new StepCommand{},
         new ExitCommand{},
     };
@@ -80,8 +84,8 @@ AdvisorBot::AdvisorBot()
         }
     }
 
-    // orderbook = std::move(OrderBook{"data/20200601.csv"});
-    orderBook = std::move(OrderBook{"test/test_data.csv"});
+    orderBook = std::move(OrderBook{"data/20200601.csv"});
+    // orderBook = std::move(OrderBook{"test/test_data.csv"});
 }
 
 void AdvisorBot::stop()

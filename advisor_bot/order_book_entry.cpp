@@ -27,6 +27,15 @@ OrderBookEntry::OrderBookEntry(double _price,
 {
 }
 
+OrderBookEntry::OrderBookEntry(const OrderBookEntry &other)
+    : price(other.price),
+      amount(other.amount),
+      timestamp(other.timestamp),
+      product(other.product),
+      orderType(other.orderType)
+{
+}
+
 OrderBookType OrderBookEntry::stringToOrderBookType(std::string s)
 {
     if (s == "ask")

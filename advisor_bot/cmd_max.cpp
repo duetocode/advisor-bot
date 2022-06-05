@@ -20,7 +20,7 @@ void MaxCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &userI
     }
 
     // Query
-    auto entries = advisorBot.getOrderBook().getCurrentEntries();
+    auto entries = advisorBot.getOrderBook().currentStep().orders;
 
     double candidate = -1.0;
     if (!entries.empty())
