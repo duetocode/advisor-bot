@@ -16,6 +16,5 @@ public:
                                        std::string product,
                                        OrderBookType OrderBookType);
 
-private:
     static OrderBookEntry stringsToOBE(std::vector<std::string> strings);
 };

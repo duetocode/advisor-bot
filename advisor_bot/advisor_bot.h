@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <memory>
 #include "order_book.h"
 
 class AdvisorBot;
@@ -41,15 +42,14 @@ public:
 class AdvisorBot
 {
 public:
+    /* pointer to the global step iterator */
+    StepIterator it;
+
     /* default constructor */
     AdvisorBot();
-    /**
-     * @brief Main loop of the advisor bot.
-     */
+    /** Main loop of the advisor bot. */
     void run();
-    /**
-     * @brief stop the main loop.
-     */
+    /** stop the main loop. */
     void stop();
 
     const std::vector<AdvisorCommand *> &getCommandsList() const;
@@ -66,6 +66,7 @@ private:
     /* command objects */
     std::vector<AdvisorCommand *> commandList;
     OrderBook orderBook;
+    /* iterator for steps */
     /** flag indicats the state of the application */
     bool running;
     /* lookup table for command matching */

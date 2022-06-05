@@ -19,23 +19,17 @@ void MaxCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &userI
         return;
     }
 
-    // Query
-    auto entries = advisorBot.getOrderBook().currentStep().orders;
-
     double candidate = -1.0;
-    if (!entries.empty())
+    for (const auto &entry : advisorBot.it->orders)
     {
-        for (const auto &entry : entries)
+        if (entry.product != userInput[1] || entry.orderType != userInput[2])
         {
-            if (entry.product != userInput[1] || entry.orderType != userInput[2])
-            {
-                continue;
-            }
+            continue;
+        }
 
-            if (entry.price > candidate)
-            {
-                candidate = entry.price;
-            }
+        if (entry.price > candidate)
+        {
+            candidate = entry.price;
         }
     }
 

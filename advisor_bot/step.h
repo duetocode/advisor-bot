@@ -22,7 +22,7 @@ public:
     std::vector<OrderBookEntry> orders;
 
     Step();
-    Step(std::vector<OrderBookEntry> _orders);
+    Step(std::vector<OrderBookEntry> &&_orders);
     // copy constructor
     Step(const Step &other);
     // move constructor

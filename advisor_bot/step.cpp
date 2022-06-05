@@ -5,7 +5,7 @@
 #include <iomanip>
 
 Step::Step() {}
-Step::Step(std::vector<OrderBookEntry> _orders) : orders(_orders) {}
+Step::Step(std::vector<OrderBookEntry> &&_orders) : orders(_orders) {}
 Step::Step(const Step &other) : orders(other.orders) {}
 Step::Step(Step &&other)
 {
@@ -100,7 +100,7 @@ std::vector<OrderBookEntry> Step::matchAsksToBids(std::string product)
                 sale.amount = ask.amount;
                 bid.amount -= ask.amount;
                 ask.amount = 0;
-                std::cout << "Matched: " << sale.product << " - " << sale.amount << std::endl;
+                // std::cout << "Matched: " << sale.product << " - " << sale.amount << std::endl;
                 sales.push_back(sale);
             }
             // the ask is match with the bid and there are not enough funds
@@ -110,7 +110,7 @@ std::vector<OrderBookEntry> Step::matchAsksToBids(std::string product)
                 sale.amount = bid.amount;
                 ask.amount -= bid.amount;
                 bid.amount = 0;
-                std::cout << "Matched: " << sale.product << " - " << sale.amount << std::endl;
+                // std::cout << "Matched: " << sale.product << " - " << sale.amount << std::endl;
                 sales.push_back(sale);
             }
         }

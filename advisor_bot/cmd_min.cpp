@@ -15,7 +15,7 @@ void MinCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &userI
     }
 
     // Query
-    auto entries = advisorBot.getOrderBook().currentStep().orders;
+    auto entries = advisorBot.it->orders;
 
     bool found = false;
     double candidate = 0.0;

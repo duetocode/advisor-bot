@@ -91,9 +91,11 @@ AdvisorBot::AdvisorBot()
     (*this) << "Loading order book..." << std::endl;
     auto tBegin = std::chrono::steady_clock::now();
     orderBook = std::move(OrderBook{"data/20200601.csv"});
+    // orderBook = OrderBook{"test/test_data.csv"};
     auto tEnd = std::chrono::steady_clock::now();
-    (*this) << "Loaded order book in " << std::chrono::duration_cast<std::chrono::seconds>(tEnd - tBegin).count() << "s" << std::endl;
-    // orderBook = std::move(OrderBook{"test/test_data.csv"});
+    (*this) << "Order book loaded in " << std::chrono::duration_cast<std::chrono::seconds>(tEnd - tBegin).count() << "s" << std::endl;
+
+    it = orderBook.begin();
 }
 
 void AdvisorBot::stop()
@@ -104,6 +106,8 @@ void AdvisorBot::stop()
 void AdvisorBot::run()
 {
     running = true;
+    it = orderBook.begin();
+
     // welcome message
     *this << "Please enter a command, or help for a list of commands" << std::endl;
 

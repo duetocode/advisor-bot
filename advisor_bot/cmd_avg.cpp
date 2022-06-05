@@ -33,26 +33,24 @@ void AvgCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &userI
 
     auto product = userInput[1];
     auto type = userInput[2] == "bid" ? OrderBookType::bid : OrderBookType::ask;
-
-    auto &orderBook = advisorBot.getOrderBook();
-    auto &step = orderBook.currentStep();
-
-    std::vector<Step *> previousSteps = orderBook.getPreviousSteps(timesteps);
+    auto it = advisorBot.it;
+    auto steps = advisorBot.getOrderBook().getPreviousSteps(it, timesteps);
 
     // accumulate
     size_t count = 0;
-    double sum = 0;
-    for (auto *step : previousSteps)
+    double sum = 0.0, amount = 0.0;
+    // copy a new iterator
+    for (const auto &step : steps)
     {
-        for (auto &order : step->orders)
+        for (auto &order : step.orders)
         {
             if (order.product == product && order.orderType == type)
             {
-                sum += order.price;
-                count++;
+                sum += order.price * order.amount;
+                amount += order.amount;
             }
         }
-        ++count;
+        count++;
     }
 
     if (count == 0)

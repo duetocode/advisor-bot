@@ -18,11 +18,11 @@ void PredictCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &u
     // Predict based on the average of the min ask and max bid price of the last 2 time steps
 
     // First, match and calcuate the average price in the last 2 time steps
-    const auto &steps = advisorBot.getOrderBook().getPreviousSteps(10);
+    auto steps = advisorBot.getOrderBook().getPreviousSteps(advisorBot.it, 2);
     std::vector<double> averageMatchedPrices;
     for (auto it = steps.rbegin(); it != steps.rend() && averageMatchedPrices.size() <= 2; ++it)
     {
-        auto matched = (*it)->matchAsksToBids(userInput[1]);
+        auto matched = it->matchAsksToBids(userInput[1]);
 
         // if no orders found, just skip this step
         if (matched.empty())

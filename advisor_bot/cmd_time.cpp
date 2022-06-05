@@ -14,5 +14,5 @@ void TimeCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &user
         return;
     }
 
-    advisorBot << advisorBot.getOrderBook().currentStep().timestamp() << std::endl;
+    advisorBot << advisorBot.it->timestamp() << std::endl;
 }

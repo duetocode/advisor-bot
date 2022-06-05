@@ -6,7 +6,12 @@ StepCommand::StepCommand() : AdvisorCommand("step", CommandDescription{"move to 
 
 void StepCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &userInput)
 {
-    Step &step = advisorBot.getOrderBook().step();
+    advisorBot.it++;
+    if (advisorBot.it == advisorBot.getOrderBook().end())
+    {
+        advisorBot << "No more data available. Wraping back to the beginning" << std::endl;
+        advisorBot.it = advisorBot.getOrderBook().begin();
+    }
 
-    advisorBot << "now at " << step.timestamp() << std::endl;
+    advisorBot << "now at " << advisorBot.it->timestamp() << std::endl;
 }

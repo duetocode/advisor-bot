@@ -14,7 +14,7 @@ void StatCommand::execute(AdvisorBot &advisorBot, std::vector<std::string> &user
         return;
     }
 
-    auto stats = advisorBot.getOrderBook().currentStep().stats();
+    auto stats = advisorBot.it->stats();
 
     if (stats.empty())
     {
